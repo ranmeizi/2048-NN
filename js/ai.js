@@ -16,7 +16,7 @@ net.makeLayers(layer_defs);
     oReq.open("GET", "model.bin", true);
     oReq.responseType = "arraybuffer";
     var updateProgress = function (oEvent) {
-                document.getElementById('ai-info').innerHTML+="<br />"+ oEvent.loaded+"loaded"
+        document.getElementById('ai-info').innerHTML="Downloading model......(about 25M). <strong>NN AI won't work until the model is loaded</strong>"+"<br />"+ oEvent.loaded+"/25484016 loaded";
 }
     oReq.addEventListener("progress", updateProgress, false);
 
