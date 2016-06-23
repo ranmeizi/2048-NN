@@ -64,6 +64,9 @@ GameManager.prototype.actuate = function () {
 // makes a given move and updates state
 GameManager.prototype.move = function(direction) {
   var result = this.grid.move(direction);
+  if(!result.moved)
+      return false;
+  
   this.score += result.score;
 
   if (!result.won) {
@@ -81,12 +84,16 @@ GameManager.prototype.move = function(direction) {
   }
 
   this.actuate();
+  return true;
 }
 
 // moves continuously until game is over
 GameManager.prototype.run = function() {
   var best = this.ai.getBest();
-  this.move(best.move);
+  for(var i=0;i<4;i++){
+    var m=best.moves[i];
+    if(this.move(m)) break;
+  }
   var timeout = animationDelay;
   if (this.running && !this.over && !this.won) {
     var self = this;

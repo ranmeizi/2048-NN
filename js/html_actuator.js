@@ -29,7 +29,7 @@ HTMLActuator.prototype.actuate = function (grid, metadata) {
 };
 
 HTMLActuator.prototype.restart = function () {
-  if (ga) ga("send", "event", "game", "restart");
+  //if (ga) ga("send", "event", "game", "restart");
   this.clearMessage();
 };
 
@@ -115,8 +115,8 @@ HTMLActuator.prototype.message = function (won) {
   this.messageContainer.getElementsByTagName("p")[0].textContent = message;
 
   this.clearContainer(this.sharingContainer);
-  this.sharingContainer.appendChild(this.scoreTweetButton());
-  twttr.widgets.load();
+  //this.sharingContainer.appendChild(this.scoreTweetButton());
+  //twttr.widgets.load();
 };
 
 HTMLActuator.prototype.clearMessage = function () {

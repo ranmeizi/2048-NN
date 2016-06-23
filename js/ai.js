@@ -1,144 +1,85 @@
+var layer_defs = [];
+layer_defs.push({type:'input', out_sx:4, out_sy:4, out_depth:16});
+var net_params=[256, 2400, 1600, 800, 400, 400, 200, 200, 100, 100, 4];
+for(var i= 1;i<net_params.length-1;i++){
+    layer_defs.push({type:'fc', num_neurons:net_params[i], activation:'relu'});
+}
+layer_defs.push({type:'fc', num_neurons:4});
+
+// create a net out of it
+var net = new convnetjs.Net();
+net.makeLayers(layer_defs);
+
+(function (){
+    document.getElementById('ai-info').innerHTML="Downloading model......(about 25M). Auto-run and hint won't work until the model is ready";
+    var oReq = new XMLHttpRequest();
+    oReq.open("GET", "model.bin", true);
+    oReq.responseType = "arraybuffer";
+
+    oReq.onload = function (oEvent) {
+    var arrayBuffer = oReq.response; // Note: not oReq.responseText
+    if (arrayBuffer) {
+        floatArray = new Float32Array(arrayBuffer);
+
+    var ptr=0|0;
+    for(var i=1;i<net_params.length;i++)
+    {
+        var l = i*2-1;
+        for(var x=0;x<net_params[i-1];x++){
+            for(var y=0;y<net_params[i];y++){
+                    net.layers[l].filters[y].w[x] = floatArray[ptr];
+                    ptr++;
+            }
+        }
+        for(var y=0;y<net_params[i];y++){
+                    net.layers[l].biases.w[y] = floatArray[ptr];
+                        ptr++;
+            }
+        }
+    }
+    document.getElementById('ai-info').innerHTML="Model downloaded. enjoy the neural network AI!";
+    };
+    oReq.send(null);
+})();
+
+
 function AI(grid) {
   this.grid = grid;
+  this.v = new convnetjs.Vol(4, 4, 16, 0.0);
 }
-
-// static evaluation function
-AI.prototype.eval = function() {
-  var emptyCells = this.grid.availableCells().length;
-
-  var smoothWeight = 0.1,
-      //monoWeight   = 0.0,
-      //islandWeight = 0.0,
-      mono2Weight  = 1.0,
-      emptyWeight  = 2.7,
-      maxWeight    = 1.0;
-
-  return this.grid.smoothness() * smoothWeight
-       //+ this.grid.monotonicity() * monoWeight
-       //- this.grid.islands() * islandWeight
-       + this.grid.monotonicity2() * mono2Weight
-       + Math.log(emptyCells) * emptyWeight
-       + this.grid.maxValue() * maxWeight;
-};
-
-// alpha-beta depth first search
-AI.prototype.search = function(depth, alpha, beta, positions, cutoffs) {
-  var bestScore;
-  var bestMove = -1;
-  var result;
-
-  // the maxing player
-  if (this.grid.playerTurn) {
-    bestScore = alpha;
-    for (var direction in [0, 1, 2, 3]) {
-      var newGrid = this.grid.clone();
-      if (newGrid.move(direction).moved) {
-        positions++;
-        if (newGrid.isWin()) {
-          return { move: direction, score: 10000, positions: positions, cutoffs: cutoffs };
+AI.prototype.make_input = function(){
+    this.v.setConst(0.0);
+    for(var i=0;i<4;i++){
+        for(var j=0;j<4;j++){
+            if(this.grid.cells[j][i] !== null){
+                var v = this.grid.cells[j][i].value|0;
+                var k =0;
+                while(v>2){
+                    v >>=1;
+                    k+=1;
+                };
+                this.v.w[i*4*16+j*16+k]=1.;
+            }
         }
-        var newAI = new AI(newGrid);
-
-        if (depth == 0) {
-          result = { move: direction, score: newAI.eval() };
-        } else {
-          result = newAI.search(depth-1, bestScore, beta, positions, cutoffs);
-          if (result.score > 9900) { // win
-            result.score--; // to slightly penalize higher depth from win
-          }
-          positions = result.positions;
-          cutoffs = result.cutoffs;
-        }
-
-        if (result.score > bestScore) {
-          bestScore = result.score;
-          bestMove = direction;
-        }
-        if (bestScore > beta) {
-          cutoffs++
-          return { move: bestMove, score: beta, positions: positions, cutoffs: cutoffs };
-        }
-      }
-    }
-  }
-
-  else { // computer's turn, we'll do heavy pruning to keep the branching factor low
-    bestScore = beta;
-
-    // try a 2 and 4 in each cell and measure how annoying it is
-    // with metrics from eval
-    var candidates = [];
-    var cells = this.grid.availableCells();
-    var scores = { 2: [], 4: [] };
-    for (var value in scores) {
-      for (var i in cells) {
-        scores[value].push(null);
-        var cell = cells[i];
-        var tile = new Tile(cell, parseInt(value, 10));
-        this.grid.insertTile(tile);
-        scores[value][i] = -this.grid.smoothness() + this.grid.islands();
-        this.grid.removeTile(cell);
-      }
     }
 
-    // now just pick out the most annoying moves
-    var maxScore = Math.max(Math.max.apply(null, scores[2]), Math.max.apply(null, scores[4]));
-    for (var value in scores) { // 2 and 4
-      for (var i=0; i<scores[value].length; i++) {
-        if (scores[value][i] == maxScore) {
-          candidates.push( { position: cells[i], value: parseInt(value, 10) } );
-        }
-      }
-    }
-
-    // search on each candidate
-    for (var i=0; i<candidates.length; i++) {
-      var position = candidates[i].position;
-      var value = candidates[i].value;
-      var newGrid = this.grid.clone();
-      var tile = new Tile(position, value);
-      newGrid.insertTile(tile);
-      newGrid.playerTurn = true;
-      positions++;
-      newAI = new AI(newGrid);
-      result = newAI.search(depth, alpha, bestScore, positions, cutoffs);
-      positions = result.positions;
-      cutoffs = result.cutoffs;
-
-      if (result.score < bestScore) {
-        bestScore = result.score;
-      }
-      if (bestScore < alpha) {
-        cutoffs++;
-        return { move: null, score: alpha, positions: positions, cutoffs: cutoffs };
-      }
-    }
-  }
-
-  return { move: bestMove, score: bestScore, positions: positions, cutoffs: cutoffs };
+    
 }
 
 // performs a search and returns the best move
 AI.prototype.getBest = function() {
-  return this.iterativeDeep();
+ //console.log(this.grid);
+ this.make_input()
+ //console.log(this.v);
+ var p = net.forward(this.v).w;
+  var m=[0,1,2,3];
+  m.sort(function(i,j){return p[i]<p[j]});
+  m = m.map(function(x){ return (x+3)%4;})
+  //console.log(p);
+  //console.log(m);
+  return {move:m[0], moves:m};
 }
 
-// performs iterative deepening over the alpha-beta search
-AI.prototype.iterativeDeep = function() {
-  var start = (new Date()).getTime();
-  var depth = 0;
-  var best;
-  do {
-    var newBest = this.search(depth, -10000, 10000, 0 ,0);
-    if (newBest.move == -1) {
-      break;
-    } else {
-      best = newBest;
-    }
-    depth++;
-  } while ( (new Date()).getTime() - start < minSearchTime);
-  return best
-}
 
 AI.prototype.translate = function(move) {
  return {
