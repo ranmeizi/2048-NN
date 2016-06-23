@@ -11,10 +11,14 @@ var net = new convnetjs.Net();
 net.makeLayers(layer_defs);
 
 (function (){
-    document.getElementById('ai-info').innerHTML="Downloading model......(about 25M). Auto-run and hint won't work until the model is ready";
+    document.getElementById('ai-info').innerHTML="Downloading model......(about 25M). <strong>NN AI won't work until the model is loaded</strong>";
     var oReq = new XMLHttpRequest();
     oReq.open("GET", "model.bin", true);
     oReq.responseType = "arraybuffer";
+    var updateProgress = function (oEvent) {
+                document.getElementById('ai-info').innerHTML+="<br />"+ oEvent.loaded+"loaded"
+}
+    oReq.addEventListener("progress", updateProgress, false);
 
     oReq.onload = function (oEvent) {
     var arrayBuffer = oReq.response; // Note: not oReq.responseText
