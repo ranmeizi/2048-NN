@@ -11,7 +11,7 @@ var net = new convnetjs.Net();
 net.makeLayers(layer_defs);
 
 (function (){
-    document.getElementById('ai-info').innerHTML="Downloading model......(about 25M). <strong>NN AI won't work until the model is loaded</strong>";
+    document.getElementById('ai-info').innerHTML="Downloading model......(about 25M). <br /><strong>NN AI won't work until the model is loaded</strong>";
     var oReq = new XMLHttpRequest();
     oReq.open("GET", "model.bin", true);
     oReq.responseType = "arraybuffer";
