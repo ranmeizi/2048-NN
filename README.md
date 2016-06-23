@@ -19,6 +19,10 @@ The following is the result of 10K games played by the neural network(key is the
 `{16: 1, 128: 124, 4096: 51584, 8192: 15622, 512: 1672, 32: 14, 8: 2, 64: 39, 2048: 23984, 256: 370, 1024: 6588}`
 
 
+Without the help of human made features and heuristics like what is used in https://github.com/nneonneo/2048-ai , the network can still reaches at least 75% success rate for the same network architecture. 
+
+A much smaller model trained without using any human made features and heuristics reaches 47% of success rate, can be found at http://github.ocm/tjwei/rl/
+
 
 The `animationDelay` is set to 30. You can make it run much faster with a smaller delay. 
 
