@@ -11,12 +11,15 @@ var net = new convnetjs.Net();
 net.makeLayers(layer_defs);
 
 (function (){
-    document.getElementById('ai-info').innerHTML="Downloading model......(about 25M). <br /><strong>NN AI won't work until the model is loaded</strong>";
+    document.getElementById('ai-info').innerHTML="Downloading model......(about 25M). <br /><strong>NN AI won't work until the model is loaded</strong><div class='progress-container'><div class='progressbar' id='progressbar' style='width: 0%'></div></div>";
     var oReq = new XMLHttpRequest();
     oReq.open("GET", "model.bin", true);
     oReq.responseType = "arraybuffer";
     var updateProgress = function (oEvent) {
-        document.getElementById('ai-info').innerHTML="Downloading model......(about 25M). <strong>NN AI won't work until the model is loaded</strong>"+"<br />"+ oEvent.loaded+"/25484016 loaded";
+    var pb = document.getElementById('progressbar');
+    pb.innerHTML=""+ oEvent.loaded+"/25484016";
+    var width = 100 * oEvent.loaded/25484016;
+    pb.style.width = width + '%'; 
 }
     oReq.addEventListener("progress", updateProgress, false);
 
