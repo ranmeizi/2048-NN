@@ -77,10 +77,10 @@ AI.prototype.getBest = function() {
  //console.log(this.v);
  var p = net.forward(this.v).w;
   var m=[0,1,2,3];
-  m.sort(function(i,j){return p[i]<p[j]});
-  m = m.map(function(x){ return (x+3)%4;})
+  m.sort(function(i,j){return p[j]-p[i]});
   //console.log(p);
   //console.log(m);
+  m = m.map(function(x){ return (x+3)%4;})
   return {move:m[0], moves:m};
 }
 
