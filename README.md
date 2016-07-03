@@ -10,32 +10,32 @@ It is a fork of http://ov3y.github.io/2048-AI/ and replace the AI part by a neur
 
 The neural network is pretrained using Theano and lasgane by observing simulated games and supervised by an advance AI https://github.com/nneonneo/2048-ai
 
-The trained neural network can achieve 2048+ in >93% of the games. It reaches 4096 in >75% of the games and reaches 8192 in >28% of the games.
+The trained neural network can achieve 2048+ in >94% of the games. It reaches 4096 in >78% of the games and reaches 8192 in >34% of the games There is a small chance(but > 0.1%) the AI can reach a max tile of 16384.
 
-It may sometimes fails with an embarrassingly low score.
+It may sometimes ended with an embarrassingly low score.
 
 The following is the result of 100K games played by the neural network
 
 |max tile| % of games| accumulated %| reversed accumulated %| 
 |--------|-----------|--------------|---------|
-|16384   | 0.068%    |        0.068%|100.000%|
-|8192    |28.356%    |       28.424%| 99.932%|
-|4096    |47.234%    |       75.658%| 71.576%|
-|2048    |17.606%    |       93.264%| 24.342%|
-|1024    | 4.968%    |       98.232%|  6.736%|
-|512     | 1.301%    |       99.533%|  1.768%|
-|256     | 0.314%    |       99.847%|  0.467%|
-|128     | 0.099%    |       99.946%|  0.153%|
-|64      | 0.033%    |       99.979%|  0.054%|
-|32      | 0.017%    |       99.996%|  0.021%|
-|16      | 0.002%    |       99.998%|  0.004%|
-|8       | 0.002%    |      100.000%|  0.002%|
+|16384   | 0.177%    |        0.177%|100.000%|
+|8192    |34.500%    |       34.677%| 99.823%|
+|4096    |43.819%    |       78.496%| 65.323%|
+|2048    |15.656%    |       94.152%| 21.504%|
+|1024    | 4.340%    |       98.492%|  5.848%|
+|512     | 1.144%    |       99.636%|  1.508%|
+|256     | 0.261%    |       99.897%|  0.364%|
+|128     | 0.064%    |       99.961%|  0.103%|
+|64      | 0.026%    |       99.987%|  0.039%|
+|32      | 0.007%    |       99.994%|  0.013%|
+|16      | 0.005%    |       99.999%|  0.006%|
+|8       | 0.001%    |      100.000%|  0.001%|
 
 or in graph
 
 <img src="plot1.png" />
 
-The average score is 78771 and the average length of a game is 3483.3 steps.
+The average score is 85351.8 and the average length of a game is 3733.6 steps.
 
 The following graph shows how many games left after certain steps in the 100K simulations:
 
