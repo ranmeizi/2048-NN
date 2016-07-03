@@ -50,5 +50,5 @@ Without the help of human made features and heuristics like what is used in http
 A much smaller model trained without using any human made features and heuristics reaches 47% of success rate, can be found at http://github.ocm/tjwei/rl/
 
 
-The `animationDelay` is set to 30. You can make it run much faster with a smaller delay. 
+The `animationDelay` is set to 10. You can make it run faster or slower with a different delay time. 
 
