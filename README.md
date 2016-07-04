@@ -1,4 +1,4 @@
-# 2048 Deep Learning AI
+# A 2048 Deep Learning AI (that does not suck)
 
 I didn't think neural network is particularly suitable for solving 2048 puzzle, but I implement one anyway. Turns out the result is not too bad, at least much better than I expected.
 
@@ -10,7 +10,7 @@ It is a fork of http://ov3y.github.io/2048-AI/ and replace the AI part by a neur
 
 The neural network is pretrained using Theano and lasgane by observing simulated games and supervised by an advance AI https://github.com/nneonneo/2048-ai
 
-The trained neural network can achieve 2048+ in >94% of the games. It reaches 4096 in >78% of the games and reaches 8192 in >34% of the games There is a small chance(but > 0.1%) the AI can reach a max tile of 16384.
+The trained neural network can achieve 2048+ in >94% of the games. It reaches 4096 in >78% of the games and reaches 8192 in >34% of the games There is a small chance(0.1%~0.2%) the AI can reach a max tile of 16384.
 
 It may sometimes ended with an embarrassingly low score.
 
