@@ -52,3 +52,18 @@ A much smaller model trained without using any human made features and heuristic
 
 The `animationDelay` is set to 10. You can make it run faster or slower with a different delay time. 
 
+A reinforcement learning algorithm using convolutional neural network is also provides.
+
+To run https://github.com/tjwei/2048-NN/blob/master/my2048-rl-theano-n-tuple-Copy7.ipynb you need selenium firefox lasagne and cudnn
+
+It is likely to reach it first 2048 in less than 100 games of learning (sometimes less than 50 games).
+
+Modified the learning rate of adam to 0.0001, it should reach 2048 in more than 60% of games.
+
+In my experiment, it consistently reach 2048 in 65%+ of games during the 1100-1700 trainnings, with a peak success rate 70%.
+
+This beats "An early attempt at applying deep reinforcement learning to the Game 2048" by Gui et al, which reachs 2048 in 7% of games.
+
+But still not as good as n-tuple approches (Szubert et al., Wu, I-C et al.), which can reach 95%+ successiful rate.
+
+This network seems to work better with larger N_FILTERS and smaller learning rate, but have not yet run the experiment.
