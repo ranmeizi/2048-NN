@@ -1,5 +1,7 @@
 # cython: infer_types=True,  infer_types.verbose=False, boundscheck=False, initializedcheck=False
 # cython: annotation_typing=True, cdivision=True
+
+# modified version of https://github.com/Mekire/console-2048/blob/master/console2048.py
 from random import random, randint
 import numpy as np
 
