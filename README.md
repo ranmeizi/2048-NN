@@ -56,7 +56,7 @@ A reinforcement learning algorithm using convolutional neural network is also pr
 
 To run https://github.com/tjwei/2048-NN/blob/master/my2048-rl-theano-n-tuple-Copy7.ipynb you need selenium firefox lasagne and cudnn
 
-It is likely to reach it first 2048 in less than 100 games of learning (sometimes less than 50 games).
+It is likely to reach 2048 tiles in less than 100 games of learning (sometimes less than 50 games).
 
 Modified the learning rate of adam to 0.0001, it should reach 2048 in more than 60% of games.
 
