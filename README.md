@@ -60,7 +60,18 @@ It is likely to reach 2048 tiles in less than 100 games of learning (sometimes l
 
 Modified the learning rate of adam to 0.0001, it should reach 2048 in more than 60% of games.
 
-In my experiment, it consistently reach 2048 in 65%+ of games during the 1100-1700 trainnings, with a peak success rate 70%.
+In my experiment, after 15K training games, it achieves an average 1600+ steps and 30000+ score. 
+
+it can consistently reach 2048 in 75%+ of games, with a peak success rate 85%+.
+
+Following plots are the average steps and average score during the training(for every 100 training games). 
+
+<img src="avg_step.png" />
+
+<img src="avg_score.png" />
+
+x
+
 
 This beats "An early attempt at applying deep reinforcement learning to the Game 2048" by Gui et al, which reachs 2048 in 7% of games.
 
