@@ -102,3 +102,16 @@ GameManager.prototype.run = function() {
     }, timeout);
   }
 }
+
+GameManager.prototype.setGrid = function(grid){
+
+  for(let y=0;y<grid.length;y++ ){
+    for(let x=0;x<grid[y].length;x++){
+      this.grid.removeTile({x,y})
+      if(grid[y][x]){
+        this.grid.insertTile(new Tile({x,y},grid[y][x]))
+      }
+    }
+  }
+  this.actuate();
+}
